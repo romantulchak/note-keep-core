@@ -1,4 +1,4 @@
-package com.notekeep.notekeep;
+package com.notekeep;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

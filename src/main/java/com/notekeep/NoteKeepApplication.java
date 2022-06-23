@@ -1,4 +1,4 @@
-package com.notekeep.notekeep;
+package com.notekeep;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
