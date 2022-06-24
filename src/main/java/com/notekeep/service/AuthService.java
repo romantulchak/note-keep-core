@@ -1,8 +1,8 @@
 package com.notekeep.service;
 
 import com.notekeep.dto.JwtDTO;
-import com.notekeep.payload.request.LoginRequest;
-import com.notekeep.payload.request.RegistrationRequest;
+import com.notekeep.payload.request.auth.LoginRequest;
+import com.notekeep.payload.request.auth.RegistrationRequest;
 
 
 public interface AuthService {
