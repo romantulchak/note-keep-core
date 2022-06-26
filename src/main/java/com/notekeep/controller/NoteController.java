@@ -22,4 +22,10 @@ public class NoteController {
     public void create(@Valid @RequestBody NoteRequest noteRequest, Authentication authentication){
         noteService.create(noteRequest, authentication);
     }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("isAuthenticated() && @userNoteAccess.hasAccess(authentication, #noteId)")
+    public void delete(@PathVariable("id") String noteId){
+        noteService.delete(noteId);
+    }
 }

@@ -36,4 +36,14 @@ public class NoteServiceImpl implements NoteService {
                 .setUser(user);
         noteRepository.save(note);
     }
+
+    /**
+     * Deletes note by id
+     *
+     * @param id note that will be deleted
+     */
+    @Override
+    public void delete(String id) {
+        noteRepository.deleteById(id);
+    }
 }
