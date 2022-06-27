@@ -1,8 +1,10 @@
 package com.notekeep.service.impl;
 
+import com.notekeep.dto.NoteColorDTO;
 import com.notekeep.exception.user.UserNotFoundException;
 import com.notekeep.model.Note;
 import com.notekeep.model.User;
+import com.notekeep.model.enums.NoteColor;
 import com.notekeep.payload.request.note.NoteRequest;
 import com.notekeep.repository.NoteRepository;
 import com.notekeep.repository.UserRepository;
@@ -10,6 +12,8 @@ import com.notekeep.service.NoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +49,15 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public void delete(String id) {
         noteRepository.deleteById(id);
+    }
+
+    /**
+     * Gets all existing colors for note
+     *
+     * @return {@link NoteColorDTO} with color name and its value
+     */
+    @Override
+    public List<NoteColorDTO> getAllNoteColors() {
+        return NoteColor.getColors();
     }
 }

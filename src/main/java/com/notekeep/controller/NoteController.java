@@ -1,5 +1,6 @@
 package com.notekeep.controller;
 
+import com.notekeep.dto.NoteColorDTO;
 import com.notekeep.payload.request.note.NoteRequest;
 import com.notekeep.service.NoteService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/note")
@@ -19,13 +21,19 @@ public class NoteController {
 
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")
-    public void create(@Valid @RequestBody NoteRequest noteRequest, Authentication authentication){
+    public void create(@Valid @RequestBody NoteRequest noteRequest, Authentication authentication) {
         noteService.create(noteRequest, authentication);
     }
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("isAuthenticated() && @userNoteAccess.hasAccess(authentication, #noteId)")
-    public void delete(@PathVariable("id") String noteId){
+    public void delete(@PathVariable("id") String noteId) {
         noteService.delete(noteId);
+    }
+
+    @GetMapping("/colors")
+    @PreAuthorize("isAuthenticated()")
+    public List<NoteColorDTO> getAllNoteColors() {
+        return noteService.getAllNoteColors();
     }
 }
