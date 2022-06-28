@@ -1,6 +1,6 @@
 package com.notekeep.controller;
 
-import com.notekeep.dto.NoteColorDTO;
+import com.notekeep.dto.NoteBackgroundDTO;
 import com.notekeep.payload.request.note.NoteRequest;
 import com.notekeep.service.NoteService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,13 @@ public class NoteController {
 
     @GetMapping("/colors")
     @PreAuthorize("isAuthenticated()")
-    public List<NoteColorDTO> getAllNoteColors() {
+    public List<NoteBackgroundDTO> getAllNoteColors() {
         return noteService.getAllNoteColors();
+    }
+
+    @GetMapping("/backgrounds")
+    @PreAuthorize("isAuthenticated()")
+    public List<NoteBackgroundDTO> getAllNoteBackground(){
+        return noteService.getAllBackgroundColors();
     }
 }

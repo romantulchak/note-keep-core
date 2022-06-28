@@ -1,6 +1,6 @@
 package com.notekeep.service;
 
-import com.notekeep.dto.NoteColorDTO;
+import com.notekeep.dto.NoteBackgroundDTO;
 import com.notekeep.payload.request.note.NoteRequest;
 import org.springframework.security.core.Authentication;
 
@@ -12,5 +12,7 @@ public interface NoteService {
 
     void delete(String id);
 
-    List<NoteColorDTO> getAllNoteColors();
+    List<NoteBackgroundDTO> getAllNoteColors();
+
+    List<NoteBackgroundDTO> getAllBackgroundColors();
 }

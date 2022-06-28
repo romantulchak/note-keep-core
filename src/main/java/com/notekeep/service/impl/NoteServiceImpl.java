@@ -1,9 +1,10 @@
 package com.notekeep.service.impl;
 
-import com.notekeep.dto.NoteColorDTO;
+import com.notekeep.dto.NoteBackgroundDTO;
 import com.notekeep.exception.user.UserNotFoundException;
 import com.notekeep.model.Note;
 import com.notekeep.model.User;
+import com.notekeep.model.enums.NoteBackground;
 import com.notekeep.model.enums.NoteColor;
 import com.notekeep.payload.request.note.NoteRequest;
 import com.notekeep.repository.NoteRepository;
@@ -54,10 +55,20 @@ public class NoteServiceImpl implements NoteService {
     /**
      * Gets all existing colors for note
      *
-     * @return {@link NoteColorDTO} with color name and its value
+     * @return {@link NoteBackgroundDTO} with color name and its value
      */
     @Override
-    public List<NoteColorDTO> getAllNoteColors() {
+    public List<NoteBackgroundDTO> getAllNoteColors() {
         return NoteColor.getColors();
+    }
+
+    /**
+     * Gets all existing backgrounds for note
+     *
+     * @return {@link NoteBackgroundDTO} with background name and its value
+     */
+    @Override
+    public List<NoteBackgroundDTO> getAllBackgroundColors() {
+        return NoteBackground.getNoteBackgrounds();
     }
 }

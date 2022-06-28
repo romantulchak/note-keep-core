@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * Creates user with data from cleint
+     * Creates user with data from client
      * if user exists will be thrown {@link UserAlreadyExistsException}
      *
      * @param registrationRequest to get necessary information to sign up

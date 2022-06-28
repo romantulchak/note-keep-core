@@ -1,6 +1,6 @@
 package com.notekeep.model.enums;
 
-import com.notekeep.dto.NoteColorDTO;
+import com.notekeep.dto.NoteBackgroundDTO;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -28,12 +28,12 @@ public enum NoteColor {
     /**
      * Gets all existing colors for note
      *
-     * @return {@link NoteColorDTO} with color name and its value
+     * @return {@link NoteBackgroundDTO} with color name and its value
      */
-    public static List<NoteColorDTO> getColors(){
+    public static List<NoteBackgroundDTO> getColors(){
         return EnumSet.allOf(NoteColor.class)
                 .stream()
-                .map(noteColor -> new NoteColorDTO(noteColor.name(), noteColor.getColor()))
+                .map(noteColor -> new NoteBackgroundDTO(noteColor.name(), noteColor.getColor()))
                 .toList();
     }
 

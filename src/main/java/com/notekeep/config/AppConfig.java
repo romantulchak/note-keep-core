@@ -3,6 +3,8 @@ package com.notekeep.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration
@@ -25,4 +27,10 @@ public class AppConfig {
         bean.setValidationMessageSource(messageSource());
         return bean;
     }
+
+    @Bean
+    public MongoTransactionManager txManager(MongoDatabaseFactory mongoDbFactory) {
+        return new MongoTransactionManager(mongoDbFactory);
+    }
+
 }
