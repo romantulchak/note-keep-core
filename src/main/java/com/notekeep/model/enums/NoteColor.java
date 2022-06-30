@@ -30,11 +30,25 @@ public enum NoteColor {
      *
      * @return {@link NoteBackgroundDTO} with color name and its value
      */
-    public static List<NoteBackgroundDTO> getColors(){
+    public static List<NoteBackgroundDTO> getColors() {
         return EnumSet.allOf(NoteColor.class)
                 .stream()
                 .map(noteColor -> new NoteBackgroundDTO(noteColor.name(), noteColor.getColor()))
                 .toList();
+    }
+
+    /**
+     * Gets value from enum by its name
+     *
+     * @param name to get its value
+     * @return value of enum by name or if value doesn't exist return empty string
+     */
+    public static String getNoteColorValueByName(String name) {
+        try {
+            return NoteColor.valueOf(name).getColor();
+        } catch (IllegalArgumentException | NullPointerException e){
+            return "";
+        }
     }
 
     public String getColor() {

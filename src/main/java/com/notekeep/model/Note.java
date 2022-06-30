@@ -25,9 +25,13 @@ public class Note {
 
     private boolean isMarked;
 
-    private String background;
+    private String backgroundColor;
+
+    private String backgroundImage;
 
     private boolean isArchived;
 
     private User user;
+
+    private int order;
 }

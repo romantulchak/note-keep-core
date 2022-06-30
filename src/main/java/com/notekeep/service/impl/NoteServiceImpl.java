@@ -37,7 +37,8 @@ public class NoteServiceImpl implements NoteService {
         Note note = new Note()
                 .setTitle(noteRequest.getTitle())
                 .setText(noteRequest.getText())
-                .setBackground(noteRequest.getBackground())
+                .setBackgroundImage(NoteBackground.getNoteBackgroundByName(noteRequest.getBackgroundImage()))
+                .setBackgroundColor(NoteColor.getNoteColorValueByName(noteRequest.getBackgroundColor()))
                 .setUser(user);
         noteRepository.save(note);
     }

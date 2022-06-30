@@ -30,6 +30,20 @@ public enum NoteBackground {
                 .toList();
     }
 
+    /**
+     * Gets value from enum by its name
+     *
+     * @param name to get its value
+     * @return value of enum by name or if value doesn't exist return empty string
+     */
+    public static String getNoteBackgroundByName(String name){
+        try {
+            return NoteBackground.valueOf(name).getPath();
+        } catch (IllegalArgumentException | NullPointerException e){
+            return  "";
+        }
+    }
+
     public String getPath() {
         return path;
     }

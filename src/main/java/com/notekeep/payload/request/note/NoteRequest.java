@@ -13,5 +13,7 @@ public class NoteRequest {
     @Size(min = 1, max = 7800, message = "note.text.length")
     private String text;
 
-    private String background;
+    private String backgroundImage;
+
+    private String backgroundColor;
 }
