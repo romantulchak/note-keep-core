@@ -51,6 +51,21 @@ public enum NoteColor {
         }
     }
 
+    /**
+     * Gets name from enum by its value
+     *
+     * @param value to get its name
+     * @return {@link NoteBackgroundDTO} with name and value
+     */
+    public static NoteBackgroundDTO getNoteBackgroundColorNameByValue(String value){
+        String name = EnumSet.allOf(NoteColor.class).stream()
+                .filter(noteBackground -> noteBackground.getColor().equals(value))
+                .findFirst()
+                .map(Enum::name)
+                .orElse(null);
+        return new NoteBackgroundDTO(name, value);
+    }
+
     public String getColor() {
         return color;
     }

@@ -44,6 +44,21 @@ public enum NoteBackground {
         }
     }
 
+    /**
+     * Gets name from enum by its value
+     *
+     * @param value to get its name
+     * @return {@link NoteBackgroundDTO} with name and value
+     */
+    public static NoteBackgroundDTO getNoteBackgroundImageNameByValue(String value){
+        String name = EnumSet.allOf(NoteBackground.class).stream()
+                .filter(noteBackground -> noteBackground.getPath().equals(value))
+                .findFirst()
+                .map(Enum::name)
+                .orElse(null);
+        return new NoteBackgroundDTO(name, value);
+    }
+
     public String getPath() {
         return path;
     }
