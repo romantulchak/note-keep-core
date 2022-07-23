@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/note")
@@ -32,21 +33,20 @@ public class NoteController {
         noteService.delete(noteId);
     }
 
-    @GetMapping("/colors")
-    @PreAuthorize("isAuthenticated()")
-    public List<NoteBackgroundDTO> getAllNoteColors() {
-        return noteService.getAllNoteColors();
-    }
-
     @GetMapping("/backgrounds")
     @PreAuthorize("isAuthenticated()")
-    public List<NoteBackgroundDTO> getAllNoteBackground(){
+    public Map<String, List<NoteBackgroundDTO>> getAllNoteBackground() {
         return noteService.getAllBackgroundColors();
     }
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public List<NoteDTO> getNotesForUser(@RequestParam(value = "page", defaultValue = "0") String page, Authentication authentication){
+    public List<NoteDTO> getNotesForUser(@RequestParam(value = "page", defaultValue = "0") String page, Authentication authentication) {
         return noteService.getNotes(page, authentication);
+    }
+
+    @PutMapping("/change-order")
+    public int changeOrderForNote(@RequestBody String id) {
+        return noteService.changeOrderForNote(id);
     }
 }

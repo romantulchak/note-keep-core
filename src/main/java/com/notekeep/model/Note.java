@@ -17,7 +17,7 @@ public class Note {
     @Id
     private String id;
 
-    @Size(min = 1, max = 999)
+    @Size(max = 999)
     private String title;
 
     @Size(min = 1, max = 7800)

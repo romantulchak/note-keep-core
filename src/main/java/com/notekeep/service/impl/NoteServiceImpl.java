@@ -1,6 +1,7 @@
 package com.notekeep.service.impl;
 
 import com.notekeep.component.Transformer;
+import com.notekeep.constant.AppConstant;
 import com.notekeep.dto.NoteBackgroundDTO;
 import com.notekeep.dto.NoteDTO;
 import com.notekeep.exception.user.UserNotFoundException;
@@ -20,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -61,23 +63,13 @@ public class NoteServiceImpl implements NoteService {
     }
 
     /**
-     * Gets all existing colors for note
+     * Gets all existing backgrounds and colors for note
      *
-     * @return {@link NoteBackgroundDTO} with color name and its value
+     * @return {@link NoteBackgroundDTO} with background/color name and its value
      */
     @Override
-    public List<NoteBackgroundDTO> getAllNoteColors() {
-        return NoteColor.getColors();
-    }
-
-    /**
-     * Gets all existing backgrounds for note
-     *
-     * @return {@link NoteBackgroundDTO} with background name and its value
-     */
-    @Override
-    public List<NoteBackgroundDTO> getAllBackgroundColors() {
-        return NoteBackground.getNoteBackgrounds();
+    public Map<String, List<NoteBackgroundDTO>> getAllBackgroundColors() {
+        return Map.of(AppConstant.BACKGROUNDS_KEY_WORD, NoteBackground.getNoteBackgrounds(), AppConstant.COLORS_KEY_WORD, NoteColor.getColors());
     }
 
     /**
@@ -96,5 +88,16 @@ public class NoteServiceImpl implements NoteService {
                 .stream()
                 .map(transformer::convertNoteToDTO)
                 .toList();
+    }
+
+    /**
+     *  Change order for note
+     *
+     * @param id of note
+     * @return current order for note
+     */
+    @Override
+    public int changeOrderForNote(String id) {
+        return 0;
     }
 }

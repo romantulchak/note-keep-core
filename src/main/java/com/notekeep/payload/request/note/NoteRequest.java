@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 @Data
 public class NoteRequest {
 
-    @Size(min = 1, max = 999, message = "note.title.length")
+    @Size(max = 999, message = "note.title.length")
     private String title;
 
     @Size(min = 1, max = 7800, message = "note.text.length")
@@ -16,4 +16,6 @@ public class NoteRequest {
     private String backgroundImage;
 
     private String backgroundColor;
+
+    private boolean isMarked;
 }
