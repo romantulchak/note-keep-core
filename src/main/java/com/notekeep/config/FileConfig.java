@@ -12,8 +12,11 @@ public class FileConfig implements WebMvcConfigurer {
     @Value("${keep.note.file.pattern}")
     private String filePattern;
 
-    @Value("${keep.note.static.file}")
-    private String staticLocation;
+    @Value("${keep.note.static.file.minimize}")
+    private String minimizedFiles;
+
+    @Value("${keep.note.static.file.full}")
+    private String fullFiles;
 
     @Value("${keep.note.files.location}")
     private String filesLocation;
@@ -21,7 +24,7 @@ public class FileConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(filePattern)
-                .addResourceLocations(staticLocation, filesLocation)
+                .addResourceLocations(minimizedFiles, fullFiles, filesLocation)
                 .setCachePeriod(0)
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver());

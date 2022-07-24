@@ -12,7 +12,7 @@ public enum NoteColor {
     YELLOW("#fff475"),
     GREEN("#ccff90"),
     BLUE_GREEN("#a7ffeb"),
-    BLUE("cbf0f8"),
+    BLUE("#cbf0f8"),
     BLACK_BLUE("#aecbfa"),
     PURPLE("#d7aefb"),
     PINK("#fdcfe8"),
