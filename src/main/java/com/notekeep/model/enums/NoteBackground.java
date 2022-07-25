@@ -41,7 +41,7 @@ public enum NoteBackground {
      */
     public static String getNoteBackgroundByName(String name){
         try {
-            return NoteBackground.valueOf(name).getPath();
+            return NoteBackground.valueOf(name).getPathToFullImage();
         } catch (IllegalArgumentException | NullPointerException e){
             return  "";
         }

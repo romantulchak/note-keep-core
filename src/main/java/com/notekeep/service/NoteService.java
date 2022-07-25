@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface NoteService {
 
-    void create(NoteRequest noteRequest, Authentication authentication);
+    NoteDTO create(NoteRequest noteRequest, Authentication authentication);
 
     void delete(String id);
 

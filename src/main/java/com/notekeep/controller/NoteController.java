@@ -23,8 +23,8 @@ public class NoteController {
 
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")
-    public void create(@Valid @RequestBody NoteRequest noteRequest, Authentication authentication) {
-        noteService.create(noteRequest, authentication);
+    public NoteDTO create(@Valid @RequestBody NoteRequest noteRequest, Authentication authentication) {
+        return noteService.create(noteRequest, authentication);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -17,5 +17,5 @@ public class NoteRequest {
 
     private String backgroundColor;
 
-    private boolean isMarked;
+    private Boolean isMarked;
 }

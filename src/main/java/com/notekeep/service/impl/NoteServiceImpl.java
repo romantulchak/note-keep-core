@@ -38,7 +38,7 @@ public class NoteServiceImpl implements NoteService {
      * @param authentication to get user in system
      */
     @Override
-    public void create(NoteRequest noteRequest, Authentication authentication) {
+    public NoteDTO create(NoteRequest noteRequest, Authentication authentication) {
         String email = authentication.getName();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(UserNotFoundException::new);
@@ -49,7 +49,7 @@ public class NoteServiceImpl implements NoteService {
                 .setBackgroundColor(NoteColor.getNoteColorValueByName(noteRequest.getBackgroundColor()))
                 .setUser(user)
                 .setOrder(1);
-        noteRepository.save(note);
+       return transformer.convertNoteToDTO(noteRepository.save(note));
     }
 
     /**
