@@ -2,6 +2,7 @@ package com.notekeep.service;
 
 import com.notekeep.dto.NoteBackgroundDTO;
 import com.notekeep.dto.NoteDTO;
+import com.notekeep.payload.request.note.ChangeBackgroundRequest;
 import com.notekeep.payload.request.note.NoteRequest;
 import org.springframework.security.core.Authentication;
 
@@ -19,4 +20,6 @@ public interface NoteService {
     List<NoteDTO> getNotes(String page, Authentication authentication);
 
     int changeOrderForNote(String id);
+
+    void changeNoteBackground(ChangeBackgroundRequest changeBackgroundRequest);
 }

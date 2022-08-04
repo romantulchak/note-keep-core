@@ -2,6 +2,7 @@ package com.notekeep.controller;
 
 import com.notekeep.dto.NoteBackgroundDTO;
 import com.notekeep.dto.NoteDTO;
+import com.notekeep.payload.request.note.ChangeBackgroundRequest;
 import com.notekeep.payload.request.note.NoteRequest;
 import com.notekeep.service.NoteService;
 import lombok.RequiredArgsConstructor;
@@ -49,4 +50,10 @@ public class NoteController {
     public int changeOrderForNote(@RequestBody String id) {
         return noteService.changeOrderForNote(id);
     }
+
+    @PutMapping("/change-background")
+    public void changeBackground(@Valid @RequestBody ChangeBackgroundRequest changeBackgroundRequest){
+        noteService.changeNoteBackground(changeBackgroundRequest);
+    }
+
 }

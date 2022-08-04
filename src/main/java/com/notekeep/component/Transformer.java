@@ -23,8 +23,8 @@ public class Transformer {
      */
     public NoteDTO convertNoteToDTO(NoteWithoutUserProjection noteWithoutUserProjection) {
         return modelMapper.map(noteWithoutUserProjection, NoteDTO.class)
-                .setBackgroundColor(NoteBackground.getNoteBackgroundImageNameByValue(noteWithoutUserProjection.getBackgroundImage()))
-                .setBackgroundImage(NoteColor.getNoteBackgroundColorNameByValue(noteWithoutUserProjection.getBackgroundColor()));
+                .setBackgroundImage(NoteBackground.getNoteBackgroundImageNameByValue(noteWithoutUserProjection.getBackgroundImage()))
+                .setBackgroundColor(NoteColor.getNoteBackgroundColorNameByValue(noteWithoutUserProjection.getBackgroundColor()));
 
     }
 

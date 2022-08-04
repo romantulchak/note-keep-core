@@ -4,11 +4,14 @@ import com.notekeep.component.Transformer;
 import com.notekeep.constant.AppConstant;
 import com.notekeep.dto.NoteBackgroundDTO;
 import com.notekeep.dto.NoteDTO;
+import com.notekeep.exception.note.NoteNotFoundException;
 import com.notekeep.exception.user.UserNotFoundException;
 import com.notekeep.model.Note;
 import com.notekeep.model.User;
+import com.notekeep.model.enums.BackgroundType;
 import com.notekeep.model.enums.NoteBackground;
 import com.notekeep.model.enums.NoteColor;
+import com.notekeep.payload.request.note.ChangeBackgroundRequest;
 import com.notekeep.payload.request.note.NoteRequest;
 import com.notekeep.repository.NoteRepository;
 import com.notekeep.repository.UserRepository;
@@ -49,7 +52,7 @@ public class NoteServiceImpl implements NoteService {
                 .setBackgroundColor(NoteColor.getNoteColorValueByName(noteRequest.getBackgroundColor()))
                 .setUser(user)
                 .setOrder(1);
-       return transformer.convertNoteToDTO(noteRepository.save(note));
+        return transformer.convertNoteToDTO(noteRepository.save(note));
     }
 
     /**
@@ -75,7 +78,7 @@ public class NoteServiceImpl implements NoteService {
     /**
      * Gets user notes (40 elements per page)
      *
-     * @param page current page
+     * @param page           current page
      * @param authentication to get user email in system
      * @return list {@link NoteDTO} of notes for user
      */
@@ -91,7 +94,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     /**
-     *  Change order for note
+     * Change order for note
      *
      * @param id of note
      * @return current order for note
@@ -99,5 +102,28 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public int changeOrderForNote(String id) {
         return 0;
+    }
+
+    /**
+     * Change Note background for note
+     *
+     * @param changeBackgroundRequest contains info about note, background name and type
+     */
+    @Override
+    public void changeNoteBackground(ChangeBackgroundRequest changeBackgroundRequest) {
+        Note note = noteRepository.findById(changeBackgroundRequest.getNoteId())
+                .orElseThrow(NoteNotFoundException::new);
+        setBackgroundValueByType(note, changeBackgroundRequest.getType(), changeBackgroundRequest.getBackgroundName());
+    }
+
+    private void setBackgroundValueByType(Note note, BackgroundType backgroundType, String name) {
+        if (backgroundType == BackgroundType.COLOR) {
+            String noteColorValue = NoteColor.getNoteColorValueByName(name);
+            note.setBackgroundColor(noteColorValue);
+        } else if (backgroundType == BackgroundType.IMAGE) {
+            String noteBackgroundValue = NoteBackground.getNoteBackgroundByName(name);
+            note.setBackgroundImage(noteBackgroundValue);
+        }
+        noteRepository.save(note);
     }
 }

@@ -55,7 +55,7 @@ public enum NoteBackground {
      */
     public static NoteBackgroundDTO getNoteBackgroundImageNameByValue(String value){
         Map<String, String> backgroundNameAndFullPath = EnumSet.allOf(NoteBackground.class).stream()
-                .filter(noteBackground -> noteBackground.getPath().equals(value))
+                .filter(noteBackground -> noteBackground.getPathToFullImage().equals(value))
                 .findFirst()
                 .map(noteBackground -> Map.of(AppConstant.NAME_KEY_WORD, noteBackground.name(), AppConstant.FULL_IMAGE_PATH_KEY_WORD, noteBackground.getPathToFullImage()))
                 .orElse(Map.of());

@@ -1,11 +1,13 @@
 package com.notekeep.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 /**
  * Contains all name of color and its value
  */
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class NoteBackgroundDTO {
     private String name;
     private String value;
