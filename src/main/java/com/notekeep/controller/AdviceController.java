@@ -1,5 +1,6 @@
 package com.notekeep.controller;
 
+import com.notekeep.exception.label.LabelAlreadyExistsException;
 import com.notekeep.exception.user.UserAlreadyExistsException;
 import com.notekeep.exception.user.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,11 @@ public class AdviceController extends ResponseEntityExceptionHandler {
         String message = messageSource.getMessage(ex.getMessage(), null, LocaleContextHolder.getLocale());
         Map<String, String> body = Map.of("message", message);
         return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, webRequest);
+    }
+
+    @ExceptionHandler(value = LabelAlreadyExistsException.class)
+    public ResponseEntity<?> handleLabelAlreadyExistsException(LabelAlreadyExistsException ex, WebRequest webRequest) {
+        String message = messageSource.getMessage("label.already.exists", new Object[]{ex.getMessage()}, LocaleContextHolder.getLocale());
+        return handleExceptionInternal(ex, message, new HttpHeaders(), HttpStatus.BAD_REQUEST, webRequest);
     }
 }
