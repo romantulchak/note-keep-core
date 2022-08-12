@@ -1,5 +1,6 @@
 package com.notekeep.service.impl;
 
+import com.notekeep.dto.LabelDTO;
 import com.notekeep.exception.label.LabelAlreadyExistsException;
 import com.notekeep.exception.label.LabelNotFoundException;
 import com.notekeep.exception.user.UserNotFoundException;
@@ -14,12 +15,29 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LabelServiceImpl implements LabelService {
 
     private final LabelRepository labelRepository;
     private final UserRepository userRepository;
+
+    /**
+     * Gets available labels for user in system
+     *
+     * @param authentication to get user in system
+     * @return list of {@link LabelDTO} available for user
+     */
+    @Override
+    public List<LabelDTO> getLabelForUser(Authentication authentication) {
+        String userEmail = authentication.getName();
+        return labelRepository.findAllByUserEmail(userEmail)
+                .stream()
+                .map(label -> new LabelDTO(label.getName()))
+                .toList();
+    }
 
     /**
      * Creates label with name for user in system
@@ -29,7 +47,7 @@ public class LabelServiceImpl implements LabelService {
      */
     @Override
     public void create(CreateEditLabelRequest createEditLabelRequest, Authentication authentication) {
-        if (labelRepository.existsByName(createEditLabelRequest.getName())){
+        if (labelRepository.existsByNameAndUserEmail(createEditLabelRequest.getName(), authentication.getName())){
             throw new LabelAlreadyExistsException(createEditLabelRequest.getName());
         }
         User user = userRepository.findByEmail(authentication.getName())
@@ -46,7 +64,7 @@ public class LabelServiceImpl implements LabelService {
      */
     @Override
     public void edit(CreateEditLabelRequest createEditLabelRequest, Authentication authentication) {
-        if (labelRepository.existsByName(createEditLabelRequest.getName())){
+        if (labelRepository.existsByNameAndUserEmail(createEditLabelRequest.getName(), authentication.getName())){
             throw new LabelAlreadyExistsException(createEditLabelRequest.getName());
         }
         Label label = labelRepository.findByNameAndUserEmail(createEditLabelRequest.getName(), authentication.getName())
