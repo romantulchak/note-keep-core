@@ -13,4 +13,6 @@ public interface LabelRepository extends MongoRepository<Label, String> {
     List<Label> findAllByUserEmail(String email);
 
     boolean existsByNameAndUserEmail(String name, String userEmail);
+
+    void deleteByNameAndUserEmail(String name, String userEmail);
 }

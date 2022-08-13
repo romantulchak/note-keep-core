@@ -13,4 +13,6 @@ public interface LabelService {
     void create(CreateEditLabelRequest createEditLabelRequest, Authentication authentication);
 
     void edit(CreateEditLabelRequest createEditLabelRequest, Authentication authentication);
+
+    void delete(String name, Authentication authentication);
 }
