@@ -35,7 +35,7 @@ public class LabelServiceImpl implements LabelService {
         String userEmail = authentication.getName();
         return labelRepository.findAllByUserEmail(userEmail)
                 .stream()
-                .map(label -> new LabelDTO(label.getName()))
+                .map(label -> new LabelDTO(label.getId(), label.getName()))
                 .toList();
     }
 
@@ -67,11 +67,22 @@ public class LabelServiceImpl implements LabelService {
         if (labelRepository.existsByNameAndUserEmail(createEditLabelRequest.getName(), authentication.getName())){
             throw new LabelAlreadyExistsException(createEditLabelRequest.getName());
         }
-        Label label = labelRepository.findByNameAndUserEmail(createEditLabelRequest.getName(), authentication.getName())
+        Label label = labelRepository.findById(createEditLabelRequest.getId())
                 .orElseThrow(LabelNotFoundException::new);
         if (!StringUtils.equals(label.getName(), createEditLabelRequest.getName())) {
             label.setName(createEditLabelRequest.getName());
             labelRepository.save(label);
         }
+    }
+
+    /**
+     * Deletes label for user by its name
+     *
+     * @param name of label
+     * @param authentication to get user in system
+     */
+    @Override
+    public void delete(String name, Authentication authentication) {
+        labelRepository.deleteByNameAndUserEmail(name, authentication.getName());
     }
 }

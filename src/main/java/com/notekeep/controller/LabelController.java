@@ -36,4 +36,11 @@ public class LabelController {
     public void edit(@Valid @RequestBody CreateEditLabelRequest createEditLabelRequest, Authentication authentication) {
         labelService.edit(createEditLabelRequest, authentication);
     }
+
+    @DeleteMapping("/delete/{name}")
+    @PreAuthorize("isAuthenticated()")
+    public void delete(@PathVariable("name") String name, Authentication authentication){
+        labelService.delete(name, authentication);
+    }
+
 }
