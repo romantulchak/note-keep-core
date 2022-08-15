@@ -43,11 +43,11 @@ public class LabelServiceImpl implements LabelService {
      * Creates label with name for user in system
      *
      * @param createEditLabelRequest contains information about label
-     * @param authentication to get user in system
+     * @param authentication         to get user in system
      */
     @Override
     public void create(CreateEditLabelRequest createEditLabelRequest, Authentication authentication) {
-        if (labelRepository.existsByNameAndUserEmail(createEditLabelRequest.getName(), authentication.getName())){
+        if (labelRepository.existsByNameAndUserEmail(createEditLabelRequest.getName(), authentication.getName())) {
             throw new LabelAlreadyExistsException(createEditLabelRequest.getName());
         }
         User user = userRepository.findByEmail(authentication.getName())
@@ -60,11 +60,11 @@ public class LabelServiceImpl implements LabelService {
      * Change label name
      *
      * @param createEditLabelRequest to get new label name
-     * @param authentication to get user email
+     * @param authentication         to get user email
      */
     @Override
     public void edit(CreateEditLabelRequest createEditLabelRequest, Authentication authentication) {
-        if (labelRepository.existsByNameAndUserEmail(createEditLabelRequest.getName(), authentication.getName())){
+        if (labelRepository.existsByNameAndUserEmail(createEditLabelRequest.getName(), authentication.getName())) {
             throw new LabelAlreadyExistsException(createEditLabelRequest.getName());
         }
         Label label = labelRepository.findById(createEditLabelRequest.getId())
@@ -78,7 +78,7 @@ public class LabelServiceImpl implements LabelService {
     /**
      * Deletes label for user by its name
      *
-     * @param name of label
+     * @param name           of label
      * @param authentication to get user in system
      */
     @Override

@@ -4,15 +4,20 @@ import com.notekeep.component.Transformer;
 import com.notekeep.constant.AppConstant;
 import com.notekeep.dto.NoteBackgroundDTO;
 import com.notekeep.dto.NoteDTO;
+import com.notekeep.exception.label.LabelNotFoundException;
 import com.notekeep.exception.note.NoteNotFoundException;
 import com.notekeep.exception.user.UserNotFoundException;
+import com.notekeep.model.Label;
 import com.notekeep.model.Note;
 import com.notekeep.model.User;
 import com.notekeep.model.enums.BackgroundType;
 import com.notekeep.model.enums.NoteBackground;
 import com.notekeep.model.enums.NoteColor;
+import com.notekeep.payload.request.label.AddLabelToNoteRequest;
 import com.notekeep.payload.request.note.ChangeBackgroundRequest;
 import com.notekeep.payload.request.note.NoteRequest;
+import com.notekeep.projection.NoteWithoutUserProjection;
+import com.notekeep.repository.LabelRepository;
 import com.notekeep.repository.NoteRepository;
 import com.notekeep.repository.UserRepository;
 import com.notekeep.service.NoteService;
@@ -20,6 +25,7 @@ import com.notekeep.utility.PageableHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +38,7 @@ public class NoteServiceImpl implements NoteService {
 
     private final NoteRepository noteRepository;
     private final UserRepository userRepository;
+    private final LabelRepository labelRepository;
     private final Transformer transformer;
 
     /**
@@ -94,6 +101,26 @@ public class NoteServiceImpl implements NoteService {
     }
 
     /**
+     * @param labelName      for getting notes for label
+     * @param page           current page
+     * @param authentication to get user email in system
+     * @return list of notes filtered by label name
+     */
+    @Override
+    public List<NoteDTO> getNotesByLabelName(String labelName, String page, Authentication authentication) {
+        int pageNumber = PageableHelper.getPageNumberFromString(page);
+        Pageable pageable = PageRequest.of(pageNumber, 40);
+        String userEmail = authentication.getName();
+        Label label = labelRepository.findByNameAndUserEmail(labelName, userEmail)
+                .orElseThrow(LabelNotFoundException::new);
+        Slice<NoteWithoutUserProjection> notesByLabelsContains = noteRepository.findNotesByLabelName(label.getId(), pageable);
+        return notesByLabelsContains.getContent()
+                .stream()
+                .map(transformer::convertNoteToDTO)
+                .toList();
+    }
+
+    /**
      * Change order for note
      *
      * @param id of note
@@ -114,6 +141,23 @@ public class NoteServiceImpl implements NoteService {
         Note note = noteRepository.findById(changeBackgroundRequest.getNoteId())
                 .orElseThrow(NoteNotFoundException::new);
         setBackgroundValueByType(note, changeBackgroundRequest.getType(), changeBackgroundRequest.getBackgroundName());
+    }
+
+    /**
+     * Adds label to note then user can filter by labels
+     *
+     * @param addLabelToNoteRequest contains note id and label id
+     */
+    @Override
+    public void addLabelToNote(AddLabelToNoteRequest addLabelToNoteRequest) {
+        Note note = noteRepository.findById(addLabelToNoteRequest.getNoteId())
+                .orElseThrow(NoteNotFoundException::new);
+        Label label = labelRepository.findById(addLabelToNoteRequest.getLabelId())
+                .orElseThrow(LabelNotFoundException::new);
+        if (!note.getLabels().contains(label)) {
+            note.getLabels().add(label);
+            noteRepository.save(note);
+        }
     }
 
     private void setBackgroundValueByType(Note note, BackgroundType backgroundType, String name) {

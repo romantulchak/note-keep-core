@@ -4,9 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document("note")
 @Getter
@@ -34,4 +37,7 @@ public class Note {
     private User user;
 
     private int order;
+
+    @DBRef(lazy = true)
+    private List<Label> labels = new ArrayList<>();
 }

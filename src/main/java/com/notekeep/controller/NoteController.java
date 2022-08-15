@@ -2,6 +2,7 @@ package com.notekeep.controller;
 
 import com.notekeep.dto.NoteBackgroundDTO;
 import com.notekeep.dto.NoteDTO;
+import com.notekeep.payload.request.label.AddLabelToNoteRequest;
 import com.notekeep.payload.request.note.ChangeBackgroundRequest;
 import com.notekeep.payload.request.note.NoteRequest;
 import com.notekeep.service.NoteService;
@@ -40,6 +41,12 @@ public class NoteController {
         return noteService.getAllBackgroundColors();
     }
 
+    @GetMapping("/label/{name}")
+    @PreAuthorize("isAuthenticated()")
+    public List<NoteDTO> getNotesByLabelName(@PathVariable("name") String name, @RequestParam(value = "page", defaultValue = "0") String page, Authentication authentication) {
+        return noteService.getNotesByLabelName(name, page, authentication);
+    }
+
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     public List<NoteDTO> getNotesForUser(@RequestParam(value = "page", defaultValue = "0") String page, Authentication authentication) {
@@ -52,8 +59,14 @@ public class NoteController {
     }
 
     @PutMapping("/change-background")
-    public void changeBackground(@Valid @RequestBody ChangeBackgroundRequest changeBackgroundRequest){
+    public void changeBackground(@Valid @RequestBody ChangeBackgroundRequest changeBackgroundRequest) {
         noteService.changeNoteBackground(changeBackgroundRequest);
+    }
+
+    @PutMapping("/add-label")
+    @PreAuthorize("isAuthenticated()")
+    public void addLabelToNote(@Valid @RequestBody AddLabelToNoteRequest addLabelToNoteRequest) {
+        noteService.addLabelToNote(addLabelToNoteRequest);
     }
 
 }
