@@ -160,6 +160,20 @@ public class NoteServiceImpl implements NoteService {
         }
     }
 
+    /**
+     * Adds note to archive if its exists for user in system
+     *
+     * @param id of note
+     * @param authentication to get user email in system
+     */
+    @Override
+    public void addNoteToArchive(String id, Authentication authentication) {
+        Note note = noteRepository.findByIdAndUserEmail(id, authentication.getName())
+                .orElseThrow(NoteNotFoundException::new);
+        note.setArchived(true);
+        noteRepository.save(note);
+    }
+
     private void setBackgroundValueByType(Note note, BackgroundType backgroundType, String name) {
         if (backgroundType == BackgroundType.COLOR) {
             String noteColorValue = NoteColor.getNoteColorValueByName(name);
