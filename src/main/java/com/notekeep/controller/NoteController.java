@@ -69,4 +69,10 @@ public class NoteController {
         noteService.addLabelToNote(addLabelToNoteRequest);
     }
 
+    @PutMapping("/add-to-archive")
+    @PreAuthorize("isAuthenticated() && userNoteAccess.hasAccess(#authentication, #noteId)")
+    public void addNoteToArchive(@RequestBody String noteId, Authentication authentication) {
+        noteService.addNoteToArchive(noteId, authentication);
+    }
+
 }

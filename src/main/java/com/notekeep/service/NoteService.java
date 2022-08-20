@@ -27,4 +27,6 @@ public interface NoteService {
     void changeNoteBackground(ChangeBackgroundRequest changeBackgroundRequest);
 
     void addLabelToNote(AddLabelToNoteRequest addLabelToNoteRequest);
+
+    void addNoteToArchive(String id, Authentication authentication);
 }
