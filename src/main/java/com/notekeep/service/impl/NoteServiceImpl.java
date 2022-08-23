@@ -83,7 +83,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     /**
-     * Gets user notes (40 elements per page)
+     * Gets user notes (40 elements per page) which not marked and not archived
      *
      * @param page           current page
      * @param authentication to get user email in system
@@ -93,7 +93,7 @@ public class NoteServiceImpl implements NoteService {
     public List<NoteDTO> getNotes(String page, Authentication authentication) {
         int pageNumber = PageableHelper.getPageNumberFromString(page);
         Pageable pageable = PageRequest.of(pageNumber, 40);
-        return noteRepository.findNotesByUserEmailOrderByOrder(authentication.getName(), pageable)
+        return noteRepository.findNotesByUserEmailAndIsMarkedFalseAndIsArchivedFalseOrderByOrder(authentication.getName(), pageable)
                 .getContent()
                 .stream()
                 .map(transformer::convertNoteToDTO)
@@ -172,6 +172,24 @@ public class NoteServiceImpl implements NoteService {
                 .orElseThrow(NoteNotFoundException::new);
         note.setArchived(true);
         noteRepository.save(note);
+    }
+
+    /**
+     * Gets user notes (40 elements per page) which not marked and archived
+     *
+     * @param page           current page
+     * @param authentication to get user email in system
+     * @return list {@link NoteDTO} of notes for user
+     */
+    @Override
+    public List<NoteDTO> getArchivedNotes(String page, Authentication authentication) {
+        int pageNumber = PageableHelper.getPageNumberFromString(page);
+        Pageable pageable = PageRequest.of(pageNumber, 40);
+        return noteRepository.findNotesByIsArchivedTrueAndUserEmail(authentication.getName(), pageable)
+                .getContent()
+                .stream()
+                .map(transformer::convertNoteToDTO)
+                .toList();
     }
 
     private void setBackgroundValueByType(Note note, BackgroundType backgroundType, String name) {

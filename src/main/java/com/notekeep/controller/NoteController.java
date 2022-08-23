@@ -70,9 +70,14 @@ public class NoteController {
     }
 
     @PutMapping("/add-to-archive")
-    @PreAuthorize("isAuthenticated() && userNoteAccess.hasAccess(#authentication, #noteId)")
+    @PreAuthorize("isAuthenticated() && @userNoteAccess.hasAccess(#authentication, #noteId)")
     public void addNoteToArchive(@RequestBody String noteId, Authentication authentication) {
         noteService.addNoteToArchive(noteId, authentication);
     }
 
+    @GetMapping("/archived")
+    @PreAuthorize("isAuthenticated()")
+    public List<NoteDTO> getArchivedNotes(@RequestParam(value = "page", defaultValue = "0") String page, Authentication authentication) {
+        return noteService.getArchivedNotes(page, authentication);
+    }
 }

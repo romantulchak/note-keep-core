@@ -15,7 +15,9 @@ public interface NoteRepository extends MongoRepository<Note, String> {
 
     Optional<Note> findByIdAndUserEmail(String id, String email);
 
-    Slice<NoteWithoutUserProjection> findNotesByUserEmailOrderByOrder(String userId, Pageable pageable);
+    Slice<NoteWithoutUserProjection> findNotesByUserEmailAndIsMarkedFalseAndIsArchivedFalseOrderByOrder(String userEmail, Pageable pageable);
+
+    Slice<NoteWithoutUserProjection> findNotesByIsArchivedTrueAndUserEmail(String userEmail, Pageable pageable);
 
     @Query(value = "{ 'labels.$id': ?0 }", fields = "{'_id': 1}")
     Slice<NoteWithoutUserProjection> findNotesByLabelName(String id, Pageable pageable);

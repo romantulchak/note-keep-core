@@ -8,13 +8,13 @@ public interface NoteWithoutUserProjection {
 
     String getText();
 
-    boolean isMarked();
+    boolean getIsMarked();
 
     String getBackgroundColor();
 
     String getBackgroundImage();
 
-    boolean isArchived();
+    boolean getIsArchived();
 
     int getOrder();
 }

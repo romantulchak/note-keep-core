@@ -29,4 +29,6 @@ public interface NoteService {
     void addLabelToNote(AddLabelToNoteRequest addLabelToNoteRequest);
 
     void addNoteToArchive(String id, Authentication authentication);
+
+    List<NoteDTO> getArchivedNotes(String page, Authentication authentication);
 }

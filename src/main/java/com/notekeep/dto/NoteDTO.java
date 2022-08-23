@@ -1,5 +1,6 @@
 package com.notekeep.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,4 +15,14 @@ public class NoteDTO {
     private NoteBackgroundDTO backgroundImage;
     private boolean isArchived;
     private int order;
+
+    @JsonProperty("isArchived")
+    public boolean isArchived() {
+        return isArchived;
+    }
+
+    @JsonProperty("isMarked")
+    public boolean isMarked() {
+        return isMarked;
+    }
 }
