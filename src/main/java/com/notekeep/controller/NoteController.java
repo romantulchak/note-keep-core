@@ -75,6 +75,12 @@ public class NoteController {
         noteService.addNoteToArchive(noteId, authentication);
     }
 
+    @PutMapping("/remove-from-archive")
+    @PreAuthorize("isAuthenticated() && @userNoteAccess.hasAccess(#authentication, #noteId)")
+    public void removeNoteFromArchive(@RequestBody String noteId, Authentication authentication) {
+        noteService.removeNoteFromArchive(noteId, authentication);
+    }
+
     @GetMapping("/archived")
     @PreAuthorize("isAuthenticated()")
     public List<NoteDTO> getArchivedNotes(@RequestParam(value = "page", defaultValue = "0") String page, Authentication authentication) {

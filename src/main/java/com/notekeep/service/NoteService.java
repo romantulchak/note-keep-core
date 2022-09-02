@@ -30,5 +30,7 @@ public interface NoteService {
 
     void addNoteToArchive(String id, Authentication authentication);
 
+    void removeNoteFromArchive(String id, Authentication authentication);
+
     List<NoteDTO> getArchivedNotes(String page, Authentication authentication);
 }

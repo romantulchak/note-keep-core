@@ -168,10 +168,18 @@ public class NoteServiceImpl implements NoteService {
      */
     @Override
     public void addNoteToArchive(String id, Authentication authentication) {
-        Note note = noteRepository.findByIdAndUserEmail(id, authentication.getName())
-                .orElseThrow(NoteNotFoundException::new);
-        note.setArchived(true);
-        noteRepository.save(note);
+        findNoteByIdAndUserIdAndChangeArchived(id, authentication, true);
+    }
+
+    /**
+     * Removes note from archive if its exists for user in system
+     *
+     * @param id of note
+     * @param authentication to get user email in system
+     */
+    @Override
+    public void removeNoteFromArchive(String id, Authentication authentication) {
+        findNoteByIdAndUserIdAndChangeArchived(id, authentication, false);
     }
 
     /**
@@ -190,6 +198,13 @@ public class NoteServiceImpl implements NoteService {
                 .stream()
                 .map(transformer::convertNoteToDTO)
                 .toList();
+    }
+
+    private void findNoteByIdAndUserIdAndChangeArchived(String id, Authentication authentication, boolean isArchived) {
+        Note note = noteRepository.findByIdAndUserEmail(id, authentication.getName())
+                .orElseThrow(NoteNotFoundException::new);
+        note.setArchived(isArchived);
+        noteRepository.save(note);
     }
 
     private void setBackgroundValueByType(Note note, BackgroundType backgroundType, String name) {
