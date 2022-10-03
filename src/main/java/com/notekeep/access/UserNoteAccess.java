@@ -16,10 +16,10 @@ public class UserNoteAccess {
      * and note id
      *
      * @param authentication to get user email in system
-     * @param noteId to check if note exists
+     * @param noteId         to check if note exists
      * @return true if note exists for current user otherwise false
      */
-    public boolean hasAccess(Authentication authentication, String noteId){
+    public boolean hasAccess(Authentication authentication, String noteId) {
         return noteRepository.existsByIdAndUserEmail(noteId, authentication.getName());
     }
 

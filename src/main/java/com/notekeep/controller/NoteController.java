@@ -86,4 +86,10 @@ public class NoteController {
     public List<NoteDTO> getArchivedNotes(@RequestParam(value = "page", defaultValue = "0") String page, Authentication authentication) {
         return noteService.getArchivedNotes(page, authentication);
     }
+
+    @PutMapping("/set-marked")
+    @PreAuthorize("isAuthenticated() && @userNoteAccess.hasAccess(#authentication, #noteId)")
+    public void setNoteMarked(@RequestBody String noteId, Authentication authentication) {
+        noteService.toggleNoteMarked(noteId);
+    }
 }

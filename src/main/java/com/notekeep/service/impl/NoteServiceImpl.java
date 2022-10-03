@@ -200,6 +200,19 @@ public class NoteServiceImpl implements NoteService {
                 .toList();
     }
 
+    /**
+     * Toggle note isMarked
+     *
+     * @param id of note
+     */
+    @Override
+    public void toggleNoteMarked(String id) {
+        Note note = noteRepository.findById(id)
+                .orElseThrow(NoteNotFoundException::new);
+        note.setMarked(!note.isMarked());
+        noteRepository.save(note);
+    }
+
     private void findNoteByIdAndUserIdAndChangeArchived(String id, Authentication authentication, boolean isArchived) {
         Note note = noteRepository.findByIdAndUserEmail(id, authentication.getName())
                 .orElseThrow(NoteNotFoundException::new);

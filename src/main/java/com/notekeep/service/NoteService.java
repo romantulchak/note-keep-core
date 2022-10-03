@@ -33,4 +33,6 @@ public interface NoteService {
     void removeNoteFromArchive(String id, Authentication authentication);
 
     List<NoteDTO> getArchivedNotes(String page, Authentication authentication);
+
+    void toggleNoteMarked(String id);
 }
